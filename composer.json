@@ -1,0 +1,17 @@
+{
+    "name": "phunk/phunk",
+    "description": "Functional programming in PHP.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Phunk\\Phunk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jack Jackdaw"
+        }
+    ],
+    "require": {}
+}
