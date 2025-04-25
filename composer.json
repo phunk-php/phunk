@@ -3,15 +3,21 @@
     "description": "Functional programming in PHP.",
     "type": "library",
     "license": "MIT",
+    "version": "0.0.1",
     "autoload": {
         "psr-4": {
-            "Phunk\\Phunk\\": "src/"
+            "Phunk\\": "src/",
+            "Tests\\Unit\\": "tests/unit"
         }
     },
     "authors": [
         {
-            "name": "Jack Jackdaw"
+            "name": "Jack Jackdaw",
+            "email": "j@ckdaw.net",
+            "homepage": "https://ja.ckdaw.net"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    }
 }
