@@ -79,10 +79,13 @@ abstract class Result
      * @param callable(T):U $fn
      * @return Result<U, E>
      */
-    public function map(callable $fn): Result
+    public function map(callable $fn, ...$params): Result
     {
         if ($this->isOk()) {
-            return self::ok($fn($this->value));
+            array_unshift($params, $this->value);  // value prepended FIRST
+            $res = call_user_func_array($fn, $params);
+
+            return self::ok($res);
         }
         return self::err($this->value);
     }
@@ -109,12 +112,14 @@ abstract class Result
      * @param callable(T):Result<U, E> $fn
      * @return Result<U, E>
      */
-    public function andThen(callable $fn): Result
+    public function andThen(callable $fn, ...$params): Result
     {
         if ($this->isOk()) {
-            $res = $fn($this->value);
+            array_unshift($params, $this->value);  // value prepended FIRST
+            $res = call_user_func_array($fn, $params);
+
             if (! ($res instanceof Result)) {
-                throw new \RuntimeException('andThen callback must return a Result');
+                throw new \RuntimeException('andThen callback must return a Result, got ');
             }
 
             return $res;
@@ -130,10 +135,12 @@ abstract class Result
      * @param callable(T):Result<U, E> $fn
      * @return Result<U, E>
      */
-    public function orElse(callable $fn): Result
+    public function orElse(callable $fn, ...$params): Result
     {
         if ($this->isErr()) {
-            $res = $fn($this->value);
+            array_unshift($params, $this->value);  // value prepended FIRST
+            $res = call_user_func_array($fn, $params);
+
             if (! ($res instanceof Result)) {
                 throw new \RuntimeException('orElse callback must return a Result');
             }
@@ -163,9 +170,11 @@ abstract class Result
      * @param callable(mixed):void $fn
      * @return Result<T,E> $this
      */
-    public function inspect(callable $fn): Result
+    public function inspect(callable $fn, ...$params): Result
     {
-        $fn($this->value);
+        array_unshift($params, $this->value);  // value prepended FIRST
+        call_user_func_array($fn, $params);
+ 
         return $this;
     }
 }
