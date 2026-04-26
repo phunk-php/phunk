@@ -27,4 +27,27 @@ abstract class Model implements \IteratorAggregate, \Traversable, \JsonSerializa
     }
 
     abstract public function toArray(): array;
+
+    protected function formatDate(mixed $date): ?string
+    {
+        $date = $this->buildDate($date);
+        if ($date instanceof \DateTime) {
+            return $date->format('c');
+        }
+
+        return $date;
+    }
+
+    protected function buildDate(mixed $date): ?\DateTime
+    {
+        if ($date === null) {
+            return null;
+        }
+
+        if (is_string($date)) {
+            $date = new \DateTime($date);
+        }
+
+        return $date;
+    }
 }
