@@ -2,6 +2,8 @@
 
 namespace Phunk\Exception;
 
-class NotFoundException extends PhunkException
+use Phunk\Exception;
+
+class NotFoundException extends Exception
 {
 }
