@@ -26,7 +26,13 @@ abstract class Model implements \IteratorAggregate, \Traversable, \JsonSerializa
         return $this->toArray();
     }
 
-    abstract public function toArray(): array;
+    public function toArray(): array
+    {
+        return array_map(
+            fn($prop) => $prop->getValue($this),
+            (new \ReflectionClass($this))->getProperties()
+        );
+    }
 
     protected function formatDate(mixed $date): ?string
     {
