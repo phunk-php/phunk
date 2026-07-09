@@ -129,7 +129,7 @@ abstract class Result
     }
 
     /**
-     * Chain another operation that returns Result; only runs on Ok.
+     * Chain another operation that returns Result; only runs on Err.
      *
      * @template U
      * @param callable(T):Result<U, E> $fn
@@ -172,7 +172,8 @@ abstract class Result
      */
     public function inspect(callable $fn, ...$params): Result
     {
-        array_unshift($params, $this->value);  // value prepended FIRST
+        //array_unshift($params, $this->value);  // value prepended FIRST
+        $params[] = $this->value;
         call_user_func_array($fn, $params);
  
         return $this;
