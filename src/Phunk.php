@@ -21,8 +21,8 @@ class Phunk
 
     public static function map(callable $method): callable
     {
-        return function(array $data) use ($method): array {
-            return array_map($method, $data);
+        return function(array $data) use ($method): Result {
+            return Result::ok(array_map($method, $data));
         };
     }
 
